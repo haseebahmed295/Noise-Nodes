@@ -1,13 +1,4 @@
-bl_info = {
-    "name": "Noise Nodes",
-    "description": "This addon add custom nodes to node shader.",
-    "author": "haseebahmed295",
-    "version": (0, 1, 0),
-    "blender": (4, 0, 0),
-    "location": "View3D",
-    "wiki_url": "",
-    "category": "Object" }
-    
+
 from .Voxel_node import ShaderNodeVoxel
 from .Cranal_node import ShaderNodeCranal
 from .Pixelator_node import ShaderNodePixelator
@@ -17,21 +8,24 @@ from .Regular_node import ShaderNodeRegular
 from .Dent_node import ShaderNodeDent
 from .Fractal_node import ShaderNodeFractal
 from .Streaks_node import ShaderNodeStreaks
+from .Fluid_node import ShaderNodeFluid
+from .Crackle_node import ShaderNodeCrackle
 import bl_ui
 import bpy
 
 
-# import nodeitems_utils
-# class ExtraNodesCategory(nodeitems_utils.NodeCategory):
-#     @classmethod
-#     def poll(cls, context):
-#         return (context.space_data.tree_type == 'ShaderNodeTree' and
-#                 context.scene.render.engine in ['BLENDER_EEVEE'])
+import bpy,nodeitems_utils
+from nodeitems_utils import NodeCategory, NodeItem
+from bpy.types import Menu
+from bl_ui import node_add_menu
 
-# ExtraNodesCategory("SH_CUSTOM_NODE", "Custom Nodes", items=[
-#     nodeitems_utils.NodeItem("ShaderNodeVoxel"),
-#     nodeitems_utils.NodeItem("ShaderNodeCranal"),
-#                                                             ]) 
+class ExtraNodesCategory(NodeCategory):
+    @classmethod
+    def poll(cls, context):
+        return (context.space_data.tree_type == 'ShaderNodeTree' and
+                context.scene.render.engine in ['BLENDER_EEVEE', 'CYCLES'])
+
+
 
 nodes = [
     ShaderNodeVoxel,
@@ -42,8 +36,14 @@ nodes = [
     ShaderNodeRegular,
     ShaderNodeStreaks,
     ShaderNodeFractal,
-    ShaderNodeDent
+    ShaderNodeDent,
+    ShaderNodeFluid,
+    ShaderNodeCrackle
 ]
+
+node_categories = [
+    ExtraNodesCategory("SH_NoiseNodes", "NoiseNodes", items=[node.__name__ for node in nodes]),
+    ]
 
 class NODE_MT_category_shader_noise(bpy.types.Menu):
     bl_idname = "NODE_MT_category_shader_noise"
@@ -62,6 +62,7 @@ def menu_draw(self, context):
 def register():
     bpy.utils.register_class(NODE_MT_category_shader_noise)
     bpy.types.NODE_MT_shader_node_add_all.append(menu_draw)
+    nodeitems_utils.register_node_categories("NOISE_NODES", node_categories)
     
     for cls in nodes:
         bpy.utils.register_class(cls)
@@ -69,6 +70,7 @@ def register():
 def unregister():
     bpy.utils.unregister_class(NODE_MT_category_shader_noise)
     bpy.types.NODE_MT_shader_node_add_all.remove(menu_draw)
+    nodeitems_utils.unregister_node_categories("NOISE_NODES")
     
     for cls in nodes:
         bpy.utils.unregister_class(cls)
