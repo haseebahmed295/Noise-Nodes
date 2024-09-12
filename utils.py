@@ -1,7 +1,40 @@
 import bpy
 
+def update_dim(self, context):
+        for node in self.node_tree.nodes:
+            if node.type == 'TEX_NOISE':
+                node.noise_dimensions = self.dimension
+            elif node.type =="TEX_VORONOI":
+                node.voronoi_dimensions = self.dimension
+        if self.dimension=="1D":
+            self.inputs['Vector'].hide = True
+        else:
+            self.inputs['Vector'].hide = False
+
+        if self.dimension in ["1D","4D"]:
+            self.inputs['W'].hide = False
+        else:
+            self.inputs['W'].hide = True
+
 
 class ShaderNode(bpy.types.ShaderNodeCustomGroup):
+    dimension: bpy.props.EnumProperty( name="Dimension", 
+        items=[ 
+        ("1D", '1D', 'Use the scalar value W as input'),
+        ("2D", '2D', 'Use the 2D vector (X,Y) as input.The Z component is ignored'),
+        ("3D", '3D', 'Use the 3D vector (X,Y,Z) as input'),
+        ("4D", '4D', 'Use the 4D vector (X,Y,Z,W) as input'),
+        ] ,
+        update=update_dim,
+        default="3D",
+        description="Number of dimension to output noise for"
+        )
+
+    
+    def draw_buttons(self, context , layout):
+        if self.bl_label != "Pixelator":
+            layout.prop(self, 'dimension' , text="")
+
     def createNodetree(self, name) :
         pass
     def getNodetree(self, name):
@@ -46,8 +79,7 @@ class ShaderNode(bpy.types.ShaderNodeCustomGroup):
         if self.node_tree.users==1:
             bpy.data.node_groups.remove(self.node_tree, do_unlink=True)
 
-
-
-
-
-
+    
+        
+        
+            

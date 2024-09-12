@@ -10,6 +10,9 @@ from .Fractal_node import ShaderNodeFractal
 from .Streaks_node import ShaderNodeStreaks
 from .Fluid_node import ShaderNodeFluid
 from .Crackle_node import ShaderNodeCrackle
+from .Perlin_node import ShaderNodePerlin
+from .Step_node import ShaderNodeStep
+from .Wavy_node import ShaderNodeWavy
 import bl_ui
 import bpy
 
@@ -18,6 +21,22 @@ import bpy,nodeitems_utils
 from nodeitems_utils import NodeCategory, NodeItem
 from bpy.types import Menu
 from bl_ui import node_add_menu
+
+
+bl_info = {
+    "name": "Noise Nodes",
+    "description": "Advance Noise Nodes For blender",
+    "author": "haseebahmad295",
+    "version": (0, 3, 0),
+    "blender": (4, 0, 0),
+    "location": "View3D",
+    "warning": "This addon is still in development.",
+    "wiki_url": "",
+    "category": "Object" }
+    
+
+
+
 
 class ExtraNodesCategory(NodeCategory):
     @classmethod
@@ -38,7 +57,10 @@ nodes = [
     ShaderNodeFractal,
     ShaderNodeDent,
     ShaderNodeFluid,
-    ShaderNodeCrackle
+    ShaderNodeCrackle,
+    ShaderNodePerlin,
+    ShaderNodeStep,
+    ShaderNodeWavy
 ]
 
 node_categories = [

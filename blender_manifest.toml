@@ -1,6 +1,6 @@
 schema_version = "1.0.0"
 id = "noise_nodes"
-version = "0.2.0"
+version = "0.3.0"
 name = "Noise Nodes"
 tagline = "Advance Noise Nodes For blender"
 maintainer = "haseebahmad295 <quicktiptech@gmail.com>"
@@ -20,4 +20,5 @@ license = [
 paths_exclude_pattern = [
   "/.git/",
   "__pycache__/",
+  ".gitignore"
 ]

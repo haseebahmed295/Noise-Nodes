@@ -9,48 +9,62 @@ class ShaderNodeCranal(ShaderNode):
     def init(self, context):
         self.getNodetree(self.name + '_node_tree')
         self.inputs['Scale'].default_value = 5
+        self.inputs['W'].hide = True
 
     def createNodetree(self, name) :
         nt = self.node_tree = bpy.data.node_groups.new(name, 'ShaderNodeTree')
 
+        nt.color_tag = 'NONE'
+        nt.description = ""
+
+        #nt interface
+        #Socket Value
         value_socket = nt.interface.new_socket(name = "Value", in_out='OUTPUT', socket_type = 'NodeSocketFloat')
-        value_socket.subtype = 'NONE'
         value_socket.default_value = 0.0
         value_socket.min_value = 0.0
         value_socket.max_value = 0.0
+        value_socket.subtype = 'NONE'
         value_socket.attribute_domain = 'POINT'
         
         #Socket Vector
         vector_socket = nt.interface.new_socket(name = "Vector", in_out='INPUT', socket_type = 'NodeSocketVector')
-        vector_socket.subtype = 'NONE'
         vector_socket.default_value = (0.0, 0.0, 0.0)
         vector_socket.min_value = 0.0
         vector_socket.max_value = 1.0
+        vector_socket.subtype = 'NONE'
         vector_socket.attribute_domain = 'POINT'
         vector_socket.hide_value = True
         
+        #Socket W
+        w_socket = nt.interface.new_socket(name = "W", in_out='INPUT', socket_type = 'NodeSocketFloat')
+        w_socket.default_value = 0.0
+        w_socket.min_value = -1000.0
+        w_socket.max_value = 1000.0
+        w_socket.subtype = 'NONE'
+        w_socket.attribute_domain = 'POINT'
+        
         #Socket Scale
         scale_socket = nt.interface.new_socket(name = "Scale", in_out='INPUT', socket_type = 'NodeSocketFloat')
-        scale_socket.subtype = 'NONE'
         scale_socket.default_value = 5.0
         scale_socket.min_value = -1000.0
         scale_socket.max_value = 1000.0
+        scale_socket.subtype = 'NONE'
         scale_socket.attribute_domain = 'POINT'
         
         #Socket Detail
         detail_socket = nt.interface.new_socket(name = "Detail", in_out='INPUT', socket_type = 'NodeSocketFloat')
-        detail_socket.subtype = 'NONE'
         detail_socket.default_value = 0.0
         detail_socket.min_value = 0.0
         detail_socket.max_value = 16.0
+        detail_socket.subtype = 'NONE'
         detail_socket.attribute_domain = 'POINT'
         
         #Socket Distortion
         distortion_socket = nt.interface.new_socket(name = "Distortion", in_out='INPUT', socket_type = 'NodeSocketFloat')
-        distortion_socket.subtype = 'NONE'
         distortion_socket.default_value = 0.0
         distortion_socket.min_value = -1000.0
         distortion_socket.max_value = 1000.0
+        distortion_socket.subtype = 'NONE'
         distortion_socket.attribute_domain = 'POINT'
         
         
@@ -66,10 +80,6 @@ class ShaderNodeCranal(ShaderNode):
         math_018.hide = True
         math_018.operation = 'ABSOLUTE'
         math_018.use_clamp = False
-        #Value_001
-        math_018.inputs[1].default_value = 0.5
-        #Value_002
-        math_018.inputs[2].default_value = 0.5
         
         #node Math.020
         math_020 = nt.nodes.new("ShaderNodeMath")
@@ -77,10 +87,6 @@ class ShaderNodeCranal(ShaderNode):
         math_020.hide = True
         math_020.operation = 'ABSOLUTE'
         math_020.use_clamp = False
-        #Value_001
-        math_020.inputs[1].default_value = 0.5
-        #Value_002
-        math_020.inputs[2].default_value = 0.5
         
         #node Math.019
         math_019 = nt.nodes.new("ShaderNodeMath")
@@ -88,10 +94,6 @@ class ShaderNodeCranal(ShaderNode):
         math_019.hide = True
         math_019.operation = 'ABSOLUTE'
         math_019.use_clamp = False
-        #Value_001
-        math_019.inputs[1].default_value = 0.5
-        #Value_002
-        math_019.inputs[2].default_value = 0.5
         
         #node Math.008
         math_008 = nt.nodes.new("ShaderNodeMath")
@@ -99,8 +101,6 @@ class ShaderNodeCranal(ShaderNode):
         math_008.hide = True
         math_008.operation = 'MULTIPLY'
         math_008.use_clamp = False
-        #Value_002
-        math_008.inputs[2].default_value = 0.5
         
         #node Math.017
         math_017 = nt.nodes.new("ShaderNodeMath")
@@ -108,8 +108,6 @@ class ShaderNodeCranal(ShaderNode):
         math_017.hide = True
         math_017.operation = 'MULTIPLY'
         math_017.use_clamp = False
-        #Value_002
-        math_017.inputs[2].default_value = 0.5
         
         #node Math.021
         math_021 = nt.nodes.new("ShaderNodeMath")
@@ -119,8 +117,6 @@ class ShaderNodeCranal(ShaderNode):
         math_021.use_clamp = False
         #Value_001
         math_021.inputs[1].default_value = 0.20000000298023224
-        #Value_002
-        math_021.inputs[2].default_value = 0.5
         
         #node Mix.006
         mix_006 = nt.nodes.new("ShaderNodeMix")
@@ -132,22 +128,8 @@ class ShaderNodeCranal(ShaderNode):
         mix_006.factor_mode = 'UNIFORM'
         #Factor_Float
         mix_006.inputs[0].default_value = 1.0
-        #Factor_Vector
-        mix_006.inputs[1].default_value = (0.5, 0.5, 0.5)
-        #A_Float
-        mix_006.inputs[2].default_value = 0.0
-        #B_Float
-        mix_006.inputs[3].default_value = 0.0
-        #A_Vector
-        mix_006.inputs[4].default_value = (0.0, 0.0, 0.0)
-        #B_Vector
-        mix_006.inputs[5].default_value = (0.0, 0.0, 0.0)
         #B_Color
         mix_006.inputs[7].default_value = (0.5, 0.5, 0.5, 1.0)
-        #A_Rotation
-        mix_006.inputs[8].default_value = (0.0, 0.0, 0.0)
-        #B_Rotation
-        mix_006.inputs[9].default_value = (0.0, 0.0, 0.0)
         
         #node Noise Texture.006
         noise_texture_006 = nt.nodes.new("ShaderNodeTexNoise")
@@ -155,16 +137,10 @@ class ShaderNodeCranal(ShaderNode):
         noise_texture_006.noise_dimensions = '3D'
         noise_texture_006.noise_type = 'FBM'
         noise_texture_006.normalize = True
-        #W
-        noise_texture_006.inputs[1].default_value = 0.0
         #Roughness
         noise_texture_006.inputs[4].default_value = 0.5
         #Lacunarity
         noise_texture_006.inputs[5].default_value = 2.0
-        #Offset
-        noise_texture_006.inputs[6].default_value = 0.0
-        #Gain
-        noise_texture_006.inputs[7].default_value = 1.0
         
         #node Group Input
         group_input = nt.nodes.new("NodeGroupInput")
@@ -228,9 +204,15 @@ class ShaderNodeCranal(ShaderNode):
         #math_021.Value -> group_output.Value
         nt.links.new(math_021.outputs[0], group_output.inputs[0])
         #group_input.Scale -> noise_texture_006.Scale
-        nt.links.new(group_input.outputs[1], noise_texture_006.inputs[2])
+        nt.links.new(group_input.outputs[2], noise_texture_006.inputs[2])
         #group_input.Detail -> noise_texture_006.Detail
-        nt.links.new(group_input.outputs[2], noise_texture_006.inputs[3])
+        nt.links.new(group_input.outputs[3], noise_texture_006.inputs[3])
         #group_input.Distortion -> noise_texture_006.Distortion
-        nt.links.new(group_input.outputs[3], noise_texture_006.inputs[8])
+        nt.links.new(group_input.outputs[4], noise_texture_006.inputs[8])
+        #group_input.W -> noise_texture_006.W
+        nt.links.new(group_input.outputs[1], noise_texture_006.inputs[1])
         return nt
+
+
+
+
