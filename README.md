@@ -26,6 +26,9 @@ Blender interface, meaning that upon installing the add-on, all included
 <li>Wavy<br></li>
 <li>Perlin<br></li>
 <li>Step<br></li>
+<li>Cellular Noise<br></li>
+<li>Hex Noise<br></li>
+<li>Contour Noise<br></li>
 </ul>
 <p><b></b>Image Preview:
  <img src="https://assets.superhivemarket.com/cache/436d0409d5f4be12a4ffd0fdb232837b.png" style="max-width: 100%;">
