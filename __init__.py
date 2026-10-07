@@ -101,6 +101,12 @@ def unregister():
         ng_unregister()
         # except Exception as e:
         #     print(f"Noide Node Unregistration failed: {e}")
+
+        # Unregister nodes
+        geometry_nodes, shader_nodes = NodeLib.get_node_sets()
+        for cls in geometry_nodes + shader_nodes:
+            bpy.utils.unregister_class(cls)
+
         # Remove from menus
         bpy.types.NODE_MT_shader_node_add_all.remove(menu_draw)
         bpy.types.NODE_MT_geometry_node_add_all.remove(menu_draw)
@@ -109,10 +115,6 @@ def unregister():
         Icon.unregister_icons()
         bpy.utils.unregister_class(NODE_MT_category_noise)
 
-        # Unregister nodes
-        geometry_nodes, shader_nodes = NodeLib.get_node_sets()
-        for cls in geometry_nodes + shader_nodes:
-            bpy.utils.unregister_class(cls)
 
         # Cleanup
         bpy.app.translations.unregister(__name__)

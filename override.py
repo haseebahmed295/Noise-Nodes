@@ -34,7 +34,10 @@ def enable_override_node_wrangler():
         "ShaderNodeStep",
         "ShaderNodeStreaks",
         "ShaderNodeVoxel",
-        "ShaderNodeWavy"
+        "ShaderNodeWavy",
+        "ShaderNodeHex",
+        "ShaderNodeContour",
+        "ShaderNodeCellular"
     ]
 
 def disable_override_node_wrangler():

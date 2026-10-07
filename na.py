@@ -82,16 +82,10 @@ def convert_to_node(dummy=None):
                 if mod.type == 'NODES' and mod.node_group and mod.node_group.nodes:
                     search_noise_group(mod.node_group , nds , 'GEOMETRY')
 
-
     # Clean up unused node groups
     for nd in bpy.data.node_groups:
         if nd.users == 0:
             bpy.data.node_groups.remove(nd, do_unlink=True)
-
-    # Process node groups
-    for nd in nds:
-        nd[0].name = nd[1]
-
 
 @persistent
 def check_linked_nodes(dummy=None):

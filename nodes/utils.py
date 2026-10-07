@@ -41,7 +41,7 @@ class Node:
             
 
     def draw_buttons(self, context, layout):
-        if self.bl_label != "Pixelator":
+        if self.bl_label not in ["Pixelator" , "Hex Noise"]:
             layout.prop(self, "dimension", text="")
 
     def createNodetree(self, name):
@@ -50,10 +50,10 @@ class Node:
     def getNodetree(self, name):
         self.createNodetree(name)
 
-        # if bpy.data.node_groups.find(name)==-1:
-        #     self.createNodetree(name)
-        # else:
-        #     self.node_tree=bpy.data.node_groups[name]
+        if bpy.data.node_groups.find(name)==-1:
+            self.createNodetree(name)
+        else:
+            self.node_tree=bpy.data.node_groups[name]
 
     def addSocket(self, is_output, sockettype, name):
         if is_output == True:
